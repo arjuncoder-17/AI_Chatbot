@@ -8,9 +8,9 @@ import pickle
 import tensorflow as tf
 import keras
 import numpy as np
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense, Activation, Dropout
-from tensorflow.python.keras.optimizers import gradient_descent_v2
+from keras.models import Sequential
+from keras.layers import Dense, Activation, Dropout
+from keras.optimizers import SGD
 import random
 
 
@@ -94,11 +94,11 @@ model.add(Dropout(0.5))
 model.add(Dense(len(train_y[0]), activation='softmax'))
 
 # # Compile model. Stochastic gradient descent with Nesterov accelerated gradient gives good results for this model
-sgd = gradient_descent_v2.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
 # #fitting and saving the model
 hist = model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=5, verbose=1)
-model.save('chatbot_model.h5',hist)
+model.save('chatbot_model.h5')
 
 print("model created")
